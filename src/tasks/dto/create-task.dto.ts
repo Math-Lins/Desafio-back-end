@@ -1,11 +1,4 @@
-import {
-  IsEnum,
-  IsInt,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  Min,
-} from 'class-validator';
+import {  IsEnum,  IsInt,  IsNotEmpty,  IsOptional,  IsString,  Min,  IsArray,} from 'class-validator';
 import { TaskStatus } from '../task.model';
 
 export class CreateTaskDto {
@@ -24,4 +17,10 @@ export class CreateTaskDto {
   @IsInt()
   @Min(1)
   priority: number;
+
+  // 🔥 Campo novo: lista de IDs de tags
+  @IsArray()
+  @IsInt({ each: true })
+  @IsOptional()
+  tagIds?: number[];
 }

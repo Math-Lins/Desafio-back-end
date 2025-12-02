@@ -1,11 +1,7 @@
-import {
-  Table,
-  Column,
-  Model,
-  DataType,
-  PrimaryKey,
-  AutoIncrement,
-} from 'sequelize-typescript';
+import {  Table,  Column,  Model,  DataType,  PrimaryKey,  AutoIncrement,  BelongsToMany,} from 'sequelize-typescript';
+
+import { Tag } from '../tags/tag.model';
+import { TaskTag } from './task-tag.model';
 
 export enum TaskStatus {
   EM_ANDAMENTO = 'EM_ANDAMENTO',
@@ -17,11 +13,10 @@ export enum TaskStatus {
   timestamps: true,
 })
 export class Task extends Model<Task> {
-
   @PrimaryKey
   @AutoIncrement
   @Column(DataType.INTEGER)
-  declare id: number; 
+  declare id: number;
 
   @Column({
     type: DataType.STRING,
@@ -47,4 +42,8 @@ export class Task extends Model<Task> {
     allowNull: false,
   })
   priority: number;
+
+  // 🔥 RELACIONAMENTO MANY-TO-MANY COM TAGS
+  @BelongsToMany(() => Tag, () => TaskTag)
+  declare tags?: Tag[];
 }

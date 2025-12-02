@@ -5,7 +5,11 @@ import {
   DataType,
   PrimaryKey,
   AutoIncrement,
+  BelongsToMany,
 } from 'sequelize-typescript';
+
+import { Task } from '../tasks/task.model';
+import { TaskTag } from '../tasks/task-tag.model';
 
 @Table({
   tableName: 'tags',
@@ -28,4 +32,8 @@ export class Tag extends Model<Tag> {
     allowNull: false,
   })
   color: string;
+
+  // 🔥 RELACIONAMENTO MANY-TO-MANY COM TASKS
+  @BelongsToMany(() => Task, () => TaskTag)
+  declare tasks?: Task[];
 }

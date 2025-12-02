@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import {  Body,  Controller,  Delete,  Get,  Param,  Patch,  Post,  Query,} from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -20,9 +12,13 @@ export class TasksController {
     return this.tasksService.create(createTaskDto);
   }
 
+  // 🔥 Agora aceita filtro por tags via query param
+  // GET /tasks
+  // GET /tasks?tags=Estudo,Matemática,Física
   @Get()
-  findAll() {
-    return this.tasksService.findAll();
+  findAll(@Query('tags') tags?: string) {
+    const tagNames = tags ? tags.split(',') : undefined;
+    return this.tasksService.findAll(tagNames);
   }
 
   @Get(':id')
